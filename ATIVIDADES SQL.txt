@@ -1,0 +1,58 @@
+ATIVIDADE 1
+CREATE TABLE Albuns (
+    IdAlbum INT PRIMARY KEY IDENTITY(1,1),
+    Nome VARCHAR(255),
+    Artista VARCHAR(255),
+    AnoLancamento INT
+);
+
+CREATE TABLE Musicas (
+    IdMusica INT PRIMARY KEY IDENTITY(1,1),
+    IdAlbum INT,
+    Titulo VARCHAR(255),
+    DuracaoSegundos INT,
+    FOREIGN KEY (IdAlbum) REFERENCES Albuns(IdAlbum)
+);
+
+INSERT INTO Albuns (Nome, Artista, AnoLancamento) VALUES
+('Divide', 'Ed Sheeran', 2017),
+('Thriller', 'Michael Jackson', 1982),
+('Back in Black', 'AC/DC', 1980),
+('25', 'Adele', 2015),
+('Future Nostalgia', 'Dua Lipa', 2020);
+
+INSERT INTO Musicas (IdAlbum, Titulo, DuracaoSegundos) VALUES
+(1, 'Shape of You', 233),
+(1, 'Perfect', 263),
+(1, 'Happier', 207),
+(2, 'Thriller', 358),
+(2, 'Beat It', 258),
+(2, 'Billie Jean', 294),
+(3, 'Hells Bells', 312),
+(3, 'Shoot to Thrill', 315),
+(3, 'Back in Black', 255),
+(4, 'Hello', 295),
+(4, 'Send My Love', 223),
+(4, 'When We Were Young', 295),
+(5, 'Levitating', 203),
+(5, 'Don’t Start Now', 183),
+(5, 'Physical', 193);
+
+SELECT Titulo, DuracaoSegundos 
+FROM Musicas
+WHERE IdAlbum = 1;
+
+SELECT Artista, COUNT(Musicas.IdMusica) AS TotalMusicas
+FROM Albuns
+JOIN Musicas ON Albuns.IdAlbum = Musicas.IdAlbum
+GROUP BY Artista;
+
+SELECT TOP 1 Nome, SUM(DuracaoSegundos) AS DuracaoTotal
+FROM Albuns
+JOIN Musicas ON Albuns.IdAlbum = Musicas.IdAlbum
+GROUP BY Nome
+ORDER BY DuracaoTotal DESC;
+
+SELECT Titulo, DuracaoSegundos
+FROM Musicas
+WHERE DuracaoSegundos > 300;
