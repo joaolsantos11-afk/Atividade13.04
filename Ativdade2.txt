@@ -1,0 +1,53 @@
+CREATE TABLE  Filmes (
+IdFilme INT PRIMARY KEY IDENTITY (1,1),
+Titulo VARCHAR (255),
+Genero VARCHAR (255),
+Ano DATE
+)
+
+CREATE TABLE Sessoes ( 
+IdSessao INT PRIMARY KEY IDENTITY (1,1),
+IdFilme INT, 
+DataSessao Date,
+Hora TIME 
+FOREIGN KEY (IdFilme) REFERENCES Filmes(IdFilme)
+)
+
+INSERT INTO Filmes (Titulo, Genero, Ano) VALUES
+('Interestelar', 'Ficção Científica', '2014-11-07'),
+('Titanic', 'Romance', '1997-12-19'),
+('Matrix', 'Ficção Científica', '1999-03-31'),
+('Coringa', 'Drama', '2019-10-03'),
+('Frozen', 'Animação', '2013-11-27');
+
+
+
+INSERT INTO Sessoes (IdFilme, DataSessao, Hora) VALUES
+(1, '2026-04-15', '18:00'),
+(1, '2026-04-15', '21:00'),
+
+(2, '2026-04-16', '19:00'),
+
+(3, '2026-04-17', '20:30'),
+
+(4, '2026-04-18', '21:45'),
+
+(5, '2026-04-19', '18:30');
+
+
+SELECT Titulo From Filmes
+WHERE Genero LIKE 'Drama'
+
+SELECT DataSessao, Hora FROM Sessoes
+JOIN Filmes ON Filmes.IdFilme = Sessoes.IdFilme
+WHERE Ano >= '2010-01-01'
+
+SELECT Titulo, COUNT(Idsessao) FROM Filmes 
+JOIN Sessoes ON Sessoes.IdFilme = Filmes.IdFilme
+GROUP BY Titulo
+
+
+SELECT Titulo, Datasessao, Hora FROM Sessoes
+JOIN Filmes ON  Filmes.IdFilme=Sessoes.IdFilme 
+
+
