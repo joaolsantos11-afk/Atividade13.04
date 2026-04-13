@@ -1,0 +1,74 @@
+CREATE TABLE Paciente(
+  IdPaciente INT PRIMARY KEY IDENTITY(1,1),
+  Nome VARCHAR(255),
+  DataNasc DATE
+);
+
+CREATE TABLE Consultas(
+  IdConsulta INT PRIMARY KEY IDENTITY(1,1),
+  IdPaciente INT,
+  DataConsulta DATE,
+  Medico VARCHAR(255),
+  FOREIGN KEY (IdPaciente) REFERENCES Paciente(IdPaciente)
+);
+
+INSERT INTO Paciente (Nome, DataNasc) VALUES
+('João Silva', '1985-03-12'),
+('Maria Oliveira', '1990-07-25'),
+('Pedro Santos', '1978-11-08'),
+('Ana Costa', '2000-01-15'),
+('Lucas Pereira', '1995-09-30'),
+('Carla Souza', '1988-05-18'),
+('Rafael Lima', '1992-12-22'),
+('Fernanda Rocha', '1983-08-10'),
+('Bruno Alves', '1999-04-05'),
+('Juliana Mendes', '2001-02-27');
+
+INSERT INTO Consultas (IdPaciente, DataConsulta, Medico) VALUES
+(1, '2026-04-10', 'Dr. Carlos'),
+(1, '2026-04-15', 'Dra. Ana'),
+(2, '2026-04-11', 'Dr. João'),
+(3, '2026-04-12', 'Dra. Paula'),
+(4, '2026-04-13', 'Dr. Ricardo'),
+(5, '2026-04-14', 'Dra. Fernanda'),
+(6, '2026-04-15', 'Dr. Marcos'),
+(7, '2026-04-16', 'Dra. Juliana'),
+(8, '2026-04-17', 'Dr. Eduardo'),
+(9, '2026-04-18', 'Dra. Camila'),
+(10, '2026-04-19', 'Dr. Felipe'),
+(2, '2026-04-20', 'Dra. Ana'),
+(3, '2026-04-21', 'Dr. Carlos'),
+(4, '2026-04-22', 'Dra. Paula'),
+(5, '2026-04-23', 'Dr. Ricardo');
+
+
+
+
+SELECT 
+    P.Nome,
+    C.Medico,
+    C.DataConsulta
+FROM Consultas C
+JOIN Paciente P
+    ON C.IdPaciente = P.IdPaciente
+WHERE C.Medico = 'Dr. Carlos';
+
+
+SELECT DataConsulta, COUNT(*) AS NumeroConsultas
+FROM Consultas
+GROUP BY DataConsulta;
+
+
+
+SELECT Paciente.Nome FROM Paciente
+LEFT JOIN Consultas
+ON Paciente.IdPaciente = Consultas.IdPaciente
+WHERE Consultas.IdConsulta IS NULL;
+
+
+SELECT Nome, DataNasc
+FROM Paciente
+WHERE DataNasc = (
+    SELECT MIN(DataNasc)
+    FROM Paciente
+);
